@@ -8,11 +8,11 @@ _Similar tools:_
 ##How to Build:
 Requirements:
 - zig 0.16 or higher
-´´´bash
+```bash
 git clone https://codeberg.org/RTarsiHub/Hors-ConcURL
 cd Hors-ConcURL
 zig build
-´´´
+```
 ##(PT/BR)
 O _Hors-ConcURL_ é um pequeno utilitario escrito em zig, feito para transferir dados entre computadores de maneira paralelizada, ou sequencial. Focado em alto desempenho e segurança.
 _Ferramentas semelhantes:_
@@ -22,8 +22,8 @@ _Ferramentas semelhantes:_
 ##Como Build:
 Requisitos:
 - zig 0.16 ou superior
-´´´bash
+```bash
 git clone https://codeberg.org/RTarsiHub/Hors-ConcURL
 cd Hors-ConcURL
 zig build
-´´´
+```
