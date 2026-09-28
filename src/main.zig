@@ -10,7 +10,7 @@ pub fn main(init: std.process.Init) !void {
     if (config.show_help) {
         cli.printHelp();
         std.process.exit(0);
-    }    
+    }
     const raw_url = config.url orelse {
         cli.printHelp();
         std.process.exit(1);

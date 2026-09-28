@@ -1,37 +1,33 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
-    // -target x86_64-linux-musl (definido como padrão)
     const target = b.standardTargetOptions(.{
         .default_target = std.Target.Query.parse(.{
             .arch_os_abi = "x86_64-linux-musl",
         }) catch unreachable,
     });
 
-    // -O ReleaseSafe (definido como preferencial/padrão)
-    const optimize = b.standardOptimizeOption(.{
-        .preferred_optimize_mode = .ReleaseSafe,
-    });
+    const optimize = std.builtin.OptimizeMode.ReleaseSmall;
 
-    // Instancia o executável
+    const use_lto = b.option(bool, "lto", "Ativar LTO") orelse false;
+
     const exe = b.addExecutable(.{
         .name = "concurl",
         .root_module = b.createModule(.{
             .root_source_file = b.path("src/main.zig"),
             .target = target,
             .optimize = optimize,
-            .strip = true, // --strip
-            .pic = true, // Ativa Position Independent Code no módulo
+            .strip = true,
+            .pic = true,
         }),
     });
 
-    // -fPIE: Ativa Position Independent Executable no binário final
     exe.pie = true;
+    exe.lto = if (use_lto) .full else .none;
+    exe.root_module.unwind_tables = .none;
 
-    // Copia o binário final para zig-out/bin/minicurl
     b.installArtifact(exe);
 
-    // Adiciona o comando 'zig build run -- <URL>'
     const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
 
